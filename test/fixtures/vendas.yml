@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  remedio: one
+  atendente: one
+  valor: MyString
+  quantidade: MyString
+
+two:
+  remedio: two
+  atendente: two
+  valor: MyString
+  quantidade: MyString
