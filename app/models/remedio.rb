@@ -4,6 +4,8 @@ class Remedio < ApplicationRecord
   validates :tipo, presence: true
   validates :preco, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  has_many :vendas
+  mount_uploader :imagem, ImagemUploader
+
+  has_and_belongs_to_many :vendas
 end
 

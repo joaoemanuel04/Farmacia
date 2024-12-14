@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "carrinho/show"
+  get "carrinho/adicionar"
+  get "carrinho/remover"
+  get "carrinho/finalizar"
   #get "home/index"
   devise_for :user
   
@@ -25,9 +29,13 @@ Rails.application.routes.draw do
   end
 
   # Outras rotas
+  #get 'home', to: 'home#index'
+
   get 'home', to: 'home#index'
 
   resources :remedios
+
+  post '/carrinho/finalizar', to: 'vendas#finalizar'
 
   #get "/test_home", to: "home#index" # Rota para testar o HTML diretamente
 

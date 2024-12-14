@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioFarma - Caixa de Supermercado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f9ff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        header .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4em; /* Aumentei o tamanho da fonte */
+            font-weight: 700;
+            color: white; /* Cor da fonte para branco */
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            background: #fff;
+            color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h3 {
+            color: #0078d4;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #0078d4;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .list-group-item {
+            border: 1px solid #ddd;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead th {
+            background-color: #0078d4;
+            color: white;
+        }
+
+        table tfoot td {
+            font-weight: bold;
+            background-color: #f1f1f1;
+        }
+
+        .finalizar {
+            text-align: right;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .modal-header {
+            background-color: #0078d4;
+            color: white;
+        }
+
+        .modal-footer .btn {
+            background-color: #0078d4;
+            border: none;
+        }
+
+        .modal-footer .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BioFarma</div>
+        <nav>
+            <a href="#home">Início</a>
+            <a href="#about">Sobre</a>
+            <a href="#contact">Contato</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="text-center">Sistema de Caixa - Supermercado</h1>
+
+        <div class="row mt-4">
+            <!-- Lista de Produtos -->
+            <div class="col-md-6">
+                <h3>Lista de Remédios</h3>
+                <% if @remedios.present? %>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Nome</th>
+                                <th>Preço (R$)</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @remedios.each do |remedio| %>
+                                <tr>
+                                    <td>
+                                        <% if remedio.imagem.present? %>
+                                            <img src="<%= remedio.imagem.url %>" alt="<%= remedio.Remediocol %>" class="img-thumbnail" style="width: 100px; height: auto;">
+                                        <% else %>
+                                            <img src="/assets/default_image.jpg" alt="Imagem padrão" class="img-thumbnail" style="width: 100px; height: auto;">
+                                        <% end %>
+                                    </td>
+                                    <td><%= remedio.Remediocol %></td>
+                                    <td><%= number_to_currency(remedio.preco, unit: "R$", separator: ",", delimiter: ".") %></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" 
+                                                onclick="adicionarAoCaixa('<%= remedio.Remediocol %>', <%= remedio.preco %>)">
+                                            Adicionar
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Paginação -->
+                    <div class="pagination">
+                        <%= paginate @remedios %>
+                    </div>
+                <% else %>
+                    <p>Nenhum remédio encontrado.</p>
+                <% end %>
+            </div>
+
+            <!-- Carrinho de Compras -->
+            <div class="col-md-6">
+                <h3>Carrinho</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="carrinho">
+                        <!-- Itens do carrinho serão listados aqui -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-right">Total:</td>
+                            <td id="total" class="total">R$ 0,00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="finalizar">
+                    <button class="btn btn-success" onclick="finalizarCompra()">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let total = 0;
+        const carrinho = [];
+
+        // Função para adicionar o remédio ao carrinho
+        function adicionarAoCaixa(nome, preco) {
+            // Verificar se o produto já está no carrinho
+            const produtoExistente = carrinho.find(item => item.nome === nome);
+            if (produtoExistente) {
+                // Se o produto já existir, apenas incrementar a quantidade
+                produtoExistente.quantidade++;
+                produtoExistente.precoTotal = produtoExistente.preco * produtoExistente.quantidade;
+            } else {
+                // Se não existir, adicionar um novo item ao carrinho
+                carrinho.push({ nome, preco, quantidade: 1, precoTotal: preco });
+            }
+
+            // Atualizar a exibição do carrinho
+            atualizarCarrinho();
+        }
+
+        // Função para atualizar a exibição do carrinho
+        function atualizarCarrinho() {
+            const carrinhoTable = document.getElementById("carrinho");
+            carrinhoTable.innerHTML = ''; // Limpar o conteúdo da tabela
+
+            // Adicionar cada item ao carrinho
+            carrinho.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.nome}</td>
+                    <td>${item.quantidade}x</td>
+                    <td>R$ ${item.precoTotal.toFixed(2)}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="removerItem('${item.nome}')">Remover</button></td>
+                `;
+                carrinhoTable.appendChild(row);
+            });
+
+            // Atualizar o total do carrinho
+            total = carrinho.reduce((acc, item) => acc + item.precoTotal, 0);
+            document.getElementById("total").innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        // Função para remover um item do carrinho
+        function removerItem(nome) {
+            // Encontrar o índice do item no carrinho
+            const index = carrinho.findIndex(item => item.nome === nome);
+            if (index !== -1) {
+                carrinho.splice(index, 1); // Remover o item
+            }
+
+            // Atualizar a exibição do carrinho
+            atualizarCarrinho();
+        }
+
+        // Função para finalizar a compra
+        function finalizarCompra() {
+            // Criar um array com os ids dos remédios do carrinho
+            const remediosIds = carrinho.map(item => item.id); // Aqui você precisa garantir que cada item tenha um 'id'
+
+            // Enviar os dados do carrinho para o backend
+            fetch('/carrinho/finalizar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    venda: {
+                        total: total,
+                        atendente_id: 1, // Você deve obter o ID do atendente de alguma forma
+                        remedios_ids: remediosIds
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Compra finalizada! Total: R$ ${total.toFixed(2)}`);
+                    carrinho.length = 0; // Limpar o carrinho
+                    atualizarCarrinho(); // Atualizar a exibição
+                } else {
+                    alert('Houve um erro ao finalizar a compra.');
+                }
+            })
+            .catch(error => {
+                alert('Erro de comunicação com o servidor.');
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

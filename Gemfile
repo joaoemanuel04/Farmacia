@@ -28,6 +28,8 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 
+gem 'kaminari-bootstrap'
+
 # Gerenciamento de Páginas
 gem 'kaminari'
 

@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_12_125857) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_14_210209) do
   create_table "atendentes", primary_key: "idAtendente", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "Nome"
     t.integer "CPF"
     t.date "dt_nasce"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_atendentes_on_user_id"
   end
 
   create_table "remedios", primary_key: "idRemedio", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -26,6 +28,14 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_125857) do
     t.float "preco"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "imagem"
+  end
+
+  create_table "remedios_vendas", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "venda_id", null: false
+    t.bigint "remedio_id", null: false
+    t.index ["remedio_id"], name: "index_remedios_vendas_on_remedio_id"
+    t.index ["venda_id"], name: "index_remedios_vendas_on_venda_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -51,6 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_125857) do
     t.index ["remedio_id"], name: "fk_rails_bf0b8d946b"
   end
 
+  add_foreign_key "atendentes", "users"
   add_foreign_key "vendas", "atendentes", primary_key: "idAtendente"
   add_foreign_key "vendas", "remedios", primary_key: "idRemedio"
 end
