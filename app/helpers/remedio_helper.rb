@@ -1,0 +1,2 @@
+module RemedioHelper
+end

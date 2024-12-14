@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   # Outras rotas
   get 'home', to: 'home#index'
 
+  resources :remedios
+
   #get "/test_home", to: "home#index" # Rota para testar o HTML diretamente
 
 
