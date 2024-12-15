@@ -1,30 +1,62 @@
 class RemediosController < ApplicationController
+  before_action :set_remedio, only: [:show, :edit, :update, :destroy]
+
+  # Lista todos os remédios com paginação
   def index
     @remedios = Remedio.page(params[:page]).per(5)
   end
 
-  def remedio_params
-    params.require(:remedio).permit(:Remediocol, :preco, :imagem)
+  # Exibe os detalhes de um único remedio
+  def show
   end
 
-  def finalizar
-    # Obter os dados do carrinho (você pode querer validar e ajustar os dados antes de salvar)
-    venda_params = params.require(:venda).permit(:total, :atendente_id, remedios_ids: [])
+  # Exibe o formulário para criação de um novo remedio
+  def new
+    @remedio = Remedio.new
+  end
 
-    # Criar a venda
-    venda = Venda.new(valor: venda_params[:total], atendente_id: venda_params[:atendente_id])
-
-    # Assumindo que remedios_ids seja um array de ids de remédios
-    remedios = Remedio.find(venda_params[:remedios_ids])
-    venda.remedios = remedios
-
-    # Salvar a venda
-    if venda.save
-      # Se a venda for salva com sucesso, enviar resposta
-      render json: { success: true, message: "Compra finalizada com sucesso!" }
+  # Cria um novo remedio
+  def create
+    @remedio = Remedio.new(remedio_params)
+    if @remedio.save
+      redirect_to @remedio, notice: 'Remédio criado com sucesso!'
     else
-      # Se ocorrer um erro ao salvar, enviar erro
-      render json: { success: false, message: "Erro ao finalizar a compra." }
+      render :new
     end
+  end
+
+  # Exibe o formulário para editar um remedio
+  def edit
+  end
+
+  # Atualiza as informações de um remedio existente
+  def update
+    if @remedio.update(remedio_params)
+      redirect_to @remedio, notice: 'Remédio atualizado com sucesso!'
+    else
+      render :edit
+    end
+  end
+
+  # Exclui um remedio
+  def destroy
+    @remedio = Remedio.find(params[:id])
+    @remedio.destroy
+    redirect_to remedios_path, notice: 'Remédio excluído com sucesso!'
+  end
+  
+
+  private
+
+  # Configura o Remédio encontrado com base no ID
+  def set_remedio
+    @remedio = Remedio.find(params[:id])
+  end
+
+  # Permite os parâmetros do remedio
+  private
+
+  def remedio_params
+    params.require(:remedio).permit(:Remediocol, :fabricante, :tipo, :preco, :imagem)  # Permitir todos os campos
   end
 end

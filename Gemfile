@@ -36,6 +36,9 @@ gem 'kaminari'
 # Autenticação
 gem 'devise'
 
+gem 'turbolinks', '~> 5'
+
+
 # Layout e Estilo
 gem 'bootstrap', '~> 5.0.2'
 gem 'sassc-rails'

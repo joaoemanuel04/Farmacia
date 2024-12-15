@@ -1,27 +1,30 @@
 class VendasController < ApplicationController
-  def finalizar
-    venda_params = params.require(:venda).permit(:total, :atendente_id, remedios_ids: [])
+  before_action :set_dependencias, only: [:new]
 
-    # Verificar se os ids dos remédios não estão vazios
-    if venda_params[:remedios_ids].blank?
-      render json: { success: false, message: "Nenhum remédio selecionado." }
-      return
-    end
+  def new
+    @venda = Venda.new
+  end
 
-    # Criar a venda e associar os remédios
-    venda = Venda.new(valor: venda_params[:total], atendente_id: venda_params[:atendente_id])
+  def create
+    @venda = Venda.new(venda_params)
+    @venda.valor = @venda.preco_total # Calcula o valor total da venda
 
-    # Encontre os remédios
-    remedios = Remedio.find(venda_params[:remedios_ids])
-
-    # Associar os remédios à venda
-    venda.remedios = remedios
-
-    # Salvar a venda
-    if venda.save
-      render json: { success: true, message: "Compra finalizada com sucesso!" }
+    if @venda.save
+      redirect_to new_venda_path, notice: "Venda registrada com sucesso!"
     else
-      render json: { success: false, message: "Erro ao finalizar a compra." }
+      set_dependencias
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def set_dependencias
+    @atendentes = Atendente.all
+    @remedios = Remedio.all
+  end
+
+  def venda_params
+    params.require(:venda).permit(:remedio_id, :atendente_id, :quantidade)
   end
 end

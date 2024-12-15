@@ -1,0 +1,35 @@
+<h1>Registrar Venda</h1>
+
+<%= form_with model: @venda, local: true do |form| %>
+  <% if @venda.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@venda.errors.count, "erro") %> proibiu a venda de ser salva:</h2>
+      <ul>
+        <% @venda.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :remedio_id, "Remédio" %>
+    <%= form.collection_select :remedio_id, @remedios, :id, :Remediocol, prompt: "Selecione um remédio" %>
+  </div>
+
+  <div>
+    <%= form.label :atendente_id, "Atendente" %>
+    <%= form.collection_select :atendente_id, @atendentes, :id, :Nome, prompt: "Selecione um atendente" %>
+  </div>
+
+  <div>
+    <%= form.label :quantidade %>
+    <%= form.number_field :quantidade, min: 1, step: 1 %>
+  </div>
+
+  <div>
+    <%= form.submit "Registrar Venda" %>
+  </div>
+<% end %>
+
+<%= link_to "Voltar", root_path %>

@@ -35,7 +35,9 @@ Rails.application.routes.draw do
 
   resources :remedios
 
-  post '/carrinho/finalizar', to: 'vendas#finalizar'
+  #post '/carrinho/finalizar', to: 'vendas#finalizar'
+
+  resources :vendas, only: [:new, :create]
 
   #get "/test_home", to: "home#index" # Rota para testar o HTML diretamente
 

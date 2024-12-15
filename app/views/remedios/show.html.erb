@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioFarma - Detalhes do Remédio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f9ff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0078d4;
+            color: white;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        header .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4em;
+            font-weight: 700;
+            color: white;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            background: #fff;
+            color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h3 {
+            color: #0078d4;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #0078d4;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">BioFarma</div>
+        <nav>
+            <a href="#home">Início</a>
+            <a href="#about">Sobre</a>
+            <a href="#contact">Contato</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="text-center">Detalhes do Remédio: <%= @remedio.Remediocol %></h1>
+
+        <div class="mb-3">
+            <strong>Nome:</strong> <%= @remedio.Remediocol %>
+        </div>
+        <div class="mb-3">
+            <strong>Preço:</strong> <%= number_to_currency(@remedio.preco, unit: "R$", separator: ",", delimiter: ".") %>
+        </div>
+        <div class="mb-3">
+            <strong>Imagem:</strong> 
+            <% if @remedio.imagem.present? %>
+                <img src="<%= @remedio.imagem.url %>" alt="<%= @remedio.Remediocol %>" class="img-thumbnail" style="width: 100px; height: auto;">
+            <% else %>
+                <img src="/assets/default_image.jpg" alt="Imagem padrão" class="img-thumbnail" style="width: 100px; height: auto;">
+            <% end %>
+        </div>
+
+        <div class="text-center mt-4">
+            <%= link_to 'Editar', edit_remedio_path(@remedio), class: 'btn btn-primary' %>
+            <%= link_to 'Voltar à Lista de Remédios', remedios_path, class: 'btn btn-secondary' %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
