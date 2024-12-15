@@ -1,4 +1,5 @@
 class Remedio < ApplicationRecord
+  self.primary_key = 'idRemedio'
   validates :Remediocol, presence: true
   validates :fabricante, presence: true
   validates :tipo, presence: true

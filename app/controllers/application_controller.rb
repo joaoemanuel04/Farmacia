@@ -3,11 +3,17 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   def after_sign_up_path_for(resource)
-    home_index_path # Redireciona para a página de login
+    home_new_path # Redireciona para a página de login
   end
 
   def after_sign_in_path_for(resource)
-    home_path
+    if resource.atendente.nil?
+      # Se o usuário não tem um atendente, redireciona para a página de cadastro do atendente
+      home_new_path
+    else
+      # Caso contrário, redireciona para a página inicial do sistema
+      home_index_path
+    end
   end
 
   # Redirecionar após logout

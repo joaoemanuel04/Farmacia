@@ -124,6 +124,10 @@
         .modal-footer .btn:hover {
             background-color: #0056b3;
         }
+
+        .voltar-btn {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +141,7 @@
     </header>
 
     <div class="container">
-        <h1 class="text-center">Lista de remedios</h1>
+        <h1 class="text-center">Lista de Remédios</h1>
 
         <div class="row mt-4">
             <!-- Lista de Produtos -->
@@ -185,9 +189,15 @@
                     <p>Nenhum remédio encontrado.</p>
                 <% end %>
             </div>
+
+            <!-- Botão Voltar ao Início -->
+            <div class="col-md-6 voltar-btn">
+                <a href="<%= root_path %>" class="btn btn-primary">Voltar ao Início</a>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
