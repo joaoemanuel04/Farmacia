@@ -158,6 +158,11 @@
         <% end %>
 
         <h3 class="mt-4 text-center text-primary">Remédios Disponíveis</h3>
+
+        <div class="mb-4 text-center">
+            <input type="text" id="search-remedios" class="form-control" placeholder="Pesquisar remédio">
+        </div>
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -251,6 +256,23 @@
                 });
             });
         });
+
+        document.getElementById('search-remedios').addEventListener('input', function () {
+            const query = this.value.toLowerCase(); // Obtém o valor digitado e converte para minúsculo
+            const rows = document.querySelectorAll('table tbody tr'); // Seleciona todas as linhas da tabela
+
+            rows.forEach(row => {
+                const nome = row.querySelector('td:first-child').textContent.toLowerCase(); // Pega o texto da primeira coluna (nome do remédio)
+
+                // Exibe ou oculta a linha com base na correspondência da pesquisa
+                if (nome.includes(query)) {
+                    row.style.display = ''; // Mostra a linha
+                } else {
+                    row.style.display = 'none'; // Oculta a linha
+                }
+            });
+        });
+
     </script>
 </body>
 </html>

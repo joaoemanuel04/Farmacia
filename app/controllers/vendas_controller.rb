@@ -1,15 +1,29 @@
 class VendasController < ApplicationController
   before_action :set_dependencias, only: [:new]
   
+  def export_csv
+    vendas = Venda.includes(:atendente, :remedio).all # Carrega as vendas com atendente e remedio
+    csv_data = CSV.generate(headers: true) do |csv|
+      csv << ['ID', 'Valor', 'Quantidade', 'Atendente', 'Remédio'] # Cabeçalho
+
+      vendas.each do |venda|
+        csv << [
+          venda.id,
+          venda.valor,
+          venda.quantidade,
+          venda.atendente.Nome,  # Assume que o modelo Atendente tem um atributo nome
+          venda.remedio.Remediocol     # Assume que o modelo Remedio tem um atributo nome
+        ]
+      end
+    end
+
+    # Envia o arquivo CSV para o usuário
+    send_data csv_data, filename: "vendas_#{Date.today}.csv", type: 'text/csv', disposition: 'attachment'
+  end
 
   def new
     @venda = Venda.new
-    @remedios = Remedio.all
-
-    # Filtragem pela busca
-    if params[:search].present?
-      @remedios = @remedios.where("remediocol LIKE ?", "%#{params[:search]}%")
-    end
+    @remedios = Remedio.where(status: 'ativo')
   end
 
   def create
@@ -24,7 +38,7 @@ class VendasController < ApplicationController
       redirect_to new_venda_path
       return
     end
-    
+
     @venda = Venda.new
     venda_items = venda_params[:items]
   

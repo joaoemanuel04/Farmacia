@@ -28,7 +28,7 @@
 
         header .logo {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3em; /* Reduzi o tamanho da fonte */
+            font-size: 3em;
             font-weight: 700;
             color: white;
             margin-top: 20px;
@@ -39,7 +39,7 @@
             text-decoration: none;
             margin: 0 20px;
             font-weight: 600;
-            font-size: 1.2em; /* Ajustei o tamanho da fonte */
+            font-size: 1.2em;
         }
 
         header nav a:hover {
@@ -52,7 +52,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60vh; /* Reduzi a altura */
+            height: 60vh;
             box-sizing: border-box;
             color: white;
         }
@@ -63,7 +63,7 @@
 
         .hero h1 {
             color: white;
-            font-size: 2.5em; /* Tamanho da fonte reduzido */
+            font-size: 2.5em;
             font-weight: 700;
             margin-bottom: 20px;
         }
@@ -71,7 +71,7 @@
         .hero p {
             margin-bottom: 20px;
             line-height: 1.8;
-            font-size: 1.1em; /* Font-size ajustado */
+            font-size: 1.1em;
             font-weight: 300;
         }
 
@@ -83,9 +83,9 @@
         .hero .buttons-container button {
             background-color: #fff;
             color: #0078d4;
-            padding: 12px 25px; /* Reduzi o padding */
+            padding: 12px 25px;
             border-radius: 30px;
-            font-size: 1.1em; /* Tamanho da fonte ajustado */
+            font-size: 1.1em;
             font-weight: 600;
             border: 2px solid #0078d4;
             transition: background-color 0.3s, color 0.3s;
@@ -97,8 +97,8 @@
         }
 
         .hero img {
-            width: 600px; /* Defini a largura da imagem para 600px */
-            height: 400px; /* Defini a altura da imagem para 400px */
+            width: 600px;
+            height: 400px;
             border-radius: 15px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
@@ -115,11 +115,6 @@
 <body>
     <header>
         <div class="logo">BioFarma</div>
-        <nav>
-            <a href="#home">Início</a>
-            <a href="#about">Sobre</a>
-            <a href="#contact">Contato</a>
-        </nav>
     </header>
 
     <section class="hero">
@@ -128,12 +123,11 @@
             <p>Cuide da sua saúde com os melhores produtos e serviços farmacêuticos. Nossa equipe está aqui para oferecer assistência de qualidade e confiança.</p>
             <div class="buttons-container">
                 <%= link_to "Caixa", new_venda_path, class: "btn btn-primary" %>
-
                 <%= link_to "Lista Remédios", remedios_path, class: "btn btn-primary" %>
-                <button>Exportar CSV</button>
+                <%= link_to "Exportar CSV", export_csv_vendas_path, class: "btn btn-primary" %>
             </div>
         </div>
-        <img src="https://via.placeholder.com/600x400" alt="Imagem Farmácia">
+        <%= image_tag("LOGO.png", alt: "Logo", width: "30", height: "30") %>
     </section>
 
     <footer>

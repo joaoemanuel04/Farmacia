@@ -1,9 +1,56 @@
 class RemediosController < ApplicationController
   before_action :set_remedio, only: [:show, :edit, :update, :destroy]
 
+  def gerar_pdf
+    # Busca os remédios ativos
+    @remedios = Remedio.where(status: 'ativo')
+  
+    # Cria um novo documento PDF
+    pdf = Prawn::Document.new
+    pdf.text 'Lista de Remédios', size: 20, style: :bold, align: :center
+    pdf.move_down 20
+  
+    # Cria a estrutura de dados para a tabela
+    dados = [
+      ["Nome", "Fabricante", "Tipo", "Preço"]
+    ]
+    
+    # Adiciona as informações dos remédios à tabela
+    @remedios.each do |remedio|
+      dados << [
+        remedio.Remediocol,        # Nome do remédio
+        remedio.fabricante,        # Fabricante
+        remedio.tipo,              # Tipo do remédio
+        "R$ #{'%.2f' % remedio.preco}"  # Preço formatado
+      ]
+    end
+  
+    # Cria a tabela no PDF
+    pdf.table(dados, header: true, width: pdf.bounds.width) do |t|
+      t.row(0).font_style = :bold     # Deixa o cabeçalho em negrito
+      t.row(0).background_color = 'cccccc' # Cor de fundo do cabeçalho
+      t.cells.padding = 8             # Padding das células
+      t.cells.border_width = 0       # Remove a borda das células
+  
+      # Cor de fundo alternada para as linhas
+      t.rows(1..-1).background_color = 'f0f0f0'  
+    end
+  
+    # Envia o PDF gerado para o navegador
+    send_data(pdf.render, filename: "remedios.pdf", type: "application/pdf", disposition: "inline")
+  end
+  
+
   # Lista todos os remédios com paginação
   def index
-    @remedios = Remedio.page(params[:page]).per(5)
+    if params[:search].present?
+      @remedios = Remedio.where('Remediocol LIKE ? AND status = ?', "%#{params[:search]}%", 'ativo').page(params[:page]).per(5)
+    else
+      # Caso contrário, exibe todos os remédios
+      @remedios = Remedio.where(status: 'ativo').page(params[:page]).per(5)
+    end
+
+    #@remedios = Remedio.where(status: 'ativo').page(params[:page]).per(5)
   end
 
   # Exibe os detalhes de um único remedio
@@ -41,8 +88,11 @@ class RemediosController < ApplicationController
   # Exclui um remedio
   def destroy
     @remedio = Remedio.find(params[:id])
-    @remedio.destroy
-    redirect_to remedios_path, notice: 'Remédio excluído com sucesso!'
+    if @remedio.update(status: 'inativo')
+      redirect_to remedios_path, notice: 'Remédio foi marcado como inativo com sucesso.'
+    else
+      redirect_to remedios_path, alert: 'Não foi possível atualizar o status do remédio.'
+    end
   end
   
 

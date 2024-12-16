@@ -4,10 +4,10 @@
       <div class="col-12 col-md-6 col-xl-7">
         <div class="d-flex justify-content-center text-bg-primary">
           <div class="col-12 col-xl-9">
-            <img class="img-fluid rounded mb-4" loading="lazy" src="./assets/img/bsb-logo-light.svg" width="245" height="80" alt="BootstrapBrain Logo">
+            <img class="img-fluid rounded mb-4" loading="lazy" src="<%= asset_path('LOGO.png') %>" width="245" height="80" alt="Logo BioFarma">
             <hr class="border-primary-subtle mb-4">
-            <h2 class="h1 mb-4">We make digital products that drive you to stand out.</h2>
-            <p class="lead mb-5">We write words, take photos, make videos, and interact with artificial intelligence.</p>
+            <h2 class="h1 mb-4">BioFarma</h2>
+            <p class="lead mb-5">Sistema prático para farmácias: cadastre medicamentos, gerencie vendas e exporte relatórios em CSV</p>
             <div class="text-endx">
               <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-grip-horizontal" viewBox="0 0 16 16">
                 <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
@@ -22,8 +22,8 @@
             <div class="row">
               <div class="col-12">
                 <div class="mb-4">
-                  <h2 class="h3">Registration</h2>
-                  <h3 class="fs-6 fw-normal text-secondary m-0">Enter your details to register</h3>
+                  <h2 class="h3">Registre-se</h2>
+                  <h3 class="fs-6 fw-normal text-secondary m-0">Coloque seus dados:</h3>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
               <div class="field mb-3">
                 <%= f.label :password %>
                 <% if @minimum_password_length %>
-                  <em>(<%= @minimum_password_length %> characters minimum)</em>
+                  <em>(<%= @minimum_password_length %> caracteres mínimo)</em>
                 <% end %><br />
                 <%= f.password_field :password, class: "form-control", autocomplete: "new-password", placeholder: "Password" %>
               </div>
@@ -50,7 +50,7 @@
               </div>
 
               <div class="actions mb-3">
-                <%= f.submit "Sign up", class: "btn btn-primary btn-lg w-100" %>
+                <%= f.submit "Registre-se", class: "btn btn-primary btn-lg w-100" %>
               </div>
             <% end %>
 
@@ -59,7 +59,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end mt-4">
-                  <p class="m-0 text-secondary text-center">Already have an account? <a href="<%= new_session_path(resource_name) %>" class="link-primary text-decoration-none">Sign in</a></p>
+                  <p class="m-0 text-secondary text-center">Já tem uma conta? <a href="<%= new_session_path(resource_name) %>" class="link-primary text-decoration-none">Entrar</a></p>
                 </div>
               </div>
             </div>

@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get "carrinho/show"
-  get "carrinho/adicionar"
-  get "carrinho/remover"
-  get "carrinho/finalizar"
   #get "home/index"
   devise_for :user
   
@@ -39,18 +35,26 @@ Rails.application.routes.draw do
   # Rotas para Atendentes
   resources :atendentes, only: [:create]
 
-  resources :remedios
+  resources :remedios, only: [:index, :new, :create, :edit, :update, :destroy]
+
+  get "destroy", to: 'remedios#destroy'
 
   #post '/carrinho/finalizar', to: 'vendas#finalizar'
 
   resources :vendas, only: [:new, :create]
 
-  resources :vendas do
+  resources :remedios do
     collection do
-      post :add_to_cart
-      delete :remove_from_cart
+      get 'gerar_pdf', defaults: { format: 'pdf' }  # Define como uma ação de coleção sem precisar de um ID
     end
   end
+
+  resources :vendas do
+    collection do
+      get :export_csv # Define a rota para a exportação
+    end
+  end
+  
 
   #get "/test_home", to: "home#index" # Rota para testar o HTML diretamente
 
