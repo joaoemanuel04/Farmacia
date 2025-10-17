@@ -1,49 +1,39 @@
-BioFarma - Sistema de Gerenciamento de Farmácia
-Descrição
-O BioFarma é um sistema de gestão para farmácias desenvolvido em Ruby on Rails. Ele permite o gerenciamento de remédios, atendentes e vendas, oferecendo uma solução completa para o controle de operações farmacêuticas. O sistema conta com funcionalidades de cadastro, autenticação de usuários, e geração de relatórios em PDF e CSV.
+# BioFarma - Sistema de Gerenciamento de Farmácia
 
-Funcionalidades Principais
-Gerenciamento de Remédios:
+## 💊 Descrição
 
-Cadastro, edição, visualização e exclusão de remédios.
+O **BioFarma** é um sistema de gestão para farmácias desenvolvido em Ruby on Rails. Ele permite o gerenciamento completo de remédios, atendentes e vendas, oferecendo uma solução robusta para o controle de operações farmacêuticas.
 
-Upload de imagens para os remédios.
+O sistema conta com funcionalidades essenciais como cadastro de produtos, autenticação de usuários e geração de relatórios em formatos PDF e CSV.
 
-Geração de um relatório em PDF com a lista de remédios.
+## ✨ Funcionalidades Principais
 
-Gerenciamento de Atendentes:
+-   **Gerenciamento de Remédios:**
+    -   CRUD (Criação, Leitura, Atualização e Deleção) de remédios.
+    -   Upload de imagens para cada produto.
+    -   Geração de um relatório em PDF com a lista completa de remédios.
 
-Cadastro, edição, visualização e exclusão de atendentes.
+-   **Gerenciamento de Atendentes:**
+    -   CRUD completo para os registros dos atendentes.
 
-Gerenciamento de Vendas:
+-   **Gerenciamento de Vendas:**
+    -   Registro de novas vendas, associando remédios e atendentes.
+    -   Listagem e consulta do histórico de vendas.
+    -   Exportação dos dados de vendas para arquivos CSV.
 
-Registro de novas vendas, associando remédios e atendentes.
+-   **Autenticação de Usuários:**
+    -   Sistema seguro de login e cadastro de usuários utilizando a gem **Devise**.
 
-Listagem de todas as vendas realizadas.
+-   **Carrinho de Compras:**
+    -   Funcionalidade para adicionar múltiplos remédios a um carrinho antes de finalizar a compra.
 
-Exportação dos dados de vendas para um arquivo CSV.
+## 🛠️ Tecnologias Utilizadas
 
-Autenticação de Usuários:
-
-Sistema de login e cadastro de usuários utilizando a gem Devise.
-
-Carrinho de Compras:
-
-Funcionalidade para adicionar remédios a um carrinho e finalizar a compra.
-
-Tecnologias Utilizadas
-Backend: Ruby on Rails
-
-Frontend: HTML, CSS, JavaScript, Bootstrap
-
-Banco de Dados: MySQL
-
-Autenticação: Devise
-
-Upload de Arquivos: CarrierWave
-
-Geração de PDF: Prawn
-
-Paginação: Kaminari
-
-Servidor Web: Puma
+-   **Backend:** Ruby on Rails
+-   **Frontend:** HTML, CSS, JavaScript, Bootstrap
+-   **Banco de Dados:** MySQL
+-   **Autenticação:** Devise
+-   **Upload de Arquivos:** CarrierWave
+-   **Geração de PDF:** Prawn
+-   **Paginação:** Kaminari
+-   **Servidor Web:** Puma
